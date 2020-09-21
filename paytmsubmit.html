@@ -1,0 +1,46 @@
+<head>
+    <title>Show Payment Page</title>
+</head>
+<body>
+<div style="text-align: center;">
+    <h1>Please do not refresh this page...</h1>
+</div>
+<form method="post" action="" name="paytm" id="paytm">
+    <table border="1">
+        <tbody>
+        <input type="hidden" name="mid" value="" id="mid">
+        <input type="hidden" name="orderId" value="" id="orderId">
+        <input type="hidden" name="txnToken" value="" id="txnToken">
+        </tbody>
+    </table>
+    <script type="text/javascript">
+        function getQueryVariable(variable) {
+            var url = window.location.href;
+            url = url.split("?")[1];
+            if (!url) return false;
+            var arr = url.split("&");
+            for (var i=0; i< arr.length; i++){
+                var cur = arr[i].split("=");
+                if(cur[0] === variable) return cur[1];
+            }
+            return false;
+        }
+
+        var mid = getQueryVariable('mid');
+        var orderId = getQueryVariable('orderId');
+        var txnToken = getQueryVariable('txnToken');
+
+        var paytmModel = document.getElementById("paytm");
+        var midModel = document.getElementById("mid");
+        var orderIdModel = document.getElementById("orderId");
+        var txnTokenModel = document.getElementById("txnToken");
+
+        midModel.value=mid;
+        orderIdModel.value= orderId;
+        txnTokenModel.value= txnToken;
+        paytmModel.action= 'https://securegw.paytm.in/theia/api/v1/showPaymentPage?mid='+mid+'&orderId='+orderId ;
+        document.paytm.submit();
+    </script>
+</form>
+</body>
+</html>

@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+  <title>Redirect</title>
+  <style>
+    html,
+    body {
+      padding: 0;
+      margin: 0;
+      background: white;
+    }
+
+    /* dialog */
+    #dialog-modal {
+      width: 100%;
+      height: 100%;
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background: rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #dialog-loading {
+      width: 50%;
+      background: white;
+      padding: 20px;
+      border-radius: 20px;
+    }
+    #dialog-tryagain{
+      width: 85%;
+      background: white;
+      padding: 0 15px;
+      border-radius: 10px;
+    }
+
+    .load-container {
+      width: 100%;
+      margin: auto;
+      height: auto;
+      position: relative;
+      overflow: hidden;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+    }
+
+    .loader {
+      font-size: 10px;
+      margin: 50px auto;
+      width: 1em;
+      height: 1em;
+      border-radius: 50%;
+      text-indent: -9999em;
+      position: relative;
+      animation: mymove 1.3s infinite linear;
+      -webkit-animation: mymove 1.5s infinite linear;
+      -webkit-transform: translateZ(0);
+      -ms-transform: translateZ(0);
+      transform: translateZ(0);
+    }
+
+    .load-tip {
+      padding: 10px 0;
+      margin: 0;
+      font-size: 17px;
+      font-weight: 500;
+      text-align: center;
+      white-space: pre-line;
+    }
+
+    /* @keyframes mymove {
+
+      0%,
+      100% {
+        box-shadow: 0 -3em 0 0.2em gray, 2em -2em 0 0em gray, 3em 0 0 -1em gray, 2em 2em 0 -1em gray, 0 3em 0 -1em gray, -2em 2em 0 -1em gray, -3em 0 0 -1em gray, -2em -2em 0 0 gray;
+      }
+      12.5% {
+        box-shadow: 0 -3em 0 0 gray, 2em -2em 0 0.2em gray, 3em 0 0 0 gray, 2em 2em 0 -1em gray, 0 3em 0 -1em gray, -2em 2em 0 -1em gray, -3em 0 0 -1em gray, -2em -2em 0 -1em gray;
+      }
+      25% {
+        box-shadow: 0 -3em 0 -0.5em gray, 2em -2em 0 0 gray, 3em 0 0 0.2em gray, 2em 2em 0 0 gray, 0 3em 0 -1em gray, -2em 2em 0 -1em gray, -3em 0 0 -1em gray, -2em -2em 0 -1em gray;
+      }
+      37.5% {
+        box-shadow: 0 -3em 0 -1em gray, 2em -2em 0 -1em gray, 3em 0em 0 0 gray, 2em 2em 0 0.2em gray, 0 3em 0 0em gray, -2em 2em 0 -1em gray, -3em 0em 0 -1em gray, -2em -2em 0 -1em gray;
+      }
+      50% {
+        box-shadow: 0 -3em 0 -1em gray, 2em -2em 0 -1em gray, 3em 0 0 -1em gray, 2em 2em 0 0em gray, 0 3em 0 0.2em gray, -2em 2em 0 0 gray, -3em 0em 0 -1em gray, -2em -2em 0 -1em gray;
+      }
+      62.5% {
+        box-shadow: 0 -3em 0 -1em gray, 2em -2em 0 -1em gray, 3em 0 0 -1em gray, 2em 2em 0 -1em gray, 0 3em 0 0 gray, -2em 2em 0 0.2em gray, -3em 0 0 0 gray, -2em -2em 0 -1em gray;
+      }
+      75% {
+        box-shadow: 0em -3em 0 -1em gray, 2em -2em 0 -1em gray, 3em 0em 0 -1em gray, 2em 2em 0 -1em gray, 0 3em 0 -1em gray, -2em 2em 0 0 gray, -3em 0em 0 0.2em gray, -2em -2em 0 0 gray;
+      }
+      87.5% {
+        box-shadow: 0em -3em 0 0 gray, 2em -2em 0 -1em gray, 3em 0 0 -1em gray, 2em 2em 0 -1em gray, 0 3em 0 -1em gray, -2em 2em 0 0 gray, -3em 0em 0 0 gray, -2em -2em 0 0.2em gray;
+      }
+    } */
+    @keyframes mymove {
+
+      0%,
+      100% {
+        box-shadow: 0 -3em 0 0.2em gray, 2em -2em 0 0.2em gray, 3em 0 0 0.2em gray, 2em 2em 0 0.2em gray, 0 3em 0 0.2em gray, -2em 2em 0 0.2em gray, -3em 0 0 0.2em gray, -2em -2em 0 0.2em black;
+      }
+
+      12.5% {
+        box-shadow: 0 -3em 0 0.2em black, 2em -2em 0 0.2em gray, 3em 0 0 0.2em gray, 2em 2em 0 0.2em gray, 0 3em 0 0.2em gray, -2em 2em 0 0.2em gray, -3em 0 0 0.2em gray, -2em -2em 0 0.2em gray;
+      }
+
+      25% {
+        box-shadow: 0 -3em 0 0.2em gray, 2em -2em 0 0.2em black, 3em 0 0 0.2em gray, 2em 2em 0 0.2em gray, 0 3em 0 0.2em gray, -2em 2em 0 0.2em gray, -3em 0 0 0.2em gray, -2em -2em 0 0.2em gray;
+      }
+
+      37.5% {
+        box-shadow: 0 -3em 0 0.2em gray, 2em -2em 0 0.2em gray, 3em 0 0 0.2em black, 2em 2em 0 0.2em gray, 0 3em 0 0.2em gray, -2em 2em 0 0.2em gray, -3em 0 0 0.2em gray, -2em -2em 0 0.2em gray;
+      }
+
+      50% {
+        box-shadow: 0 -3em 0 0.2em gray, 2em -2em 0 0.2em gray, 3em 0 0 0.2em gray, 2em 2em 0 0.2em black, 0 3em 0 0.2em gray, -2em 2em 0 0.2em gray, -3em 0 0 0.2em gray, -2em -2em 0 0.2em gray;
+      }
+
+      62.5% {
+        box-shadow: 0 -3em 0 0.2em gray, 2em -2em 0 0.2em gray, 3em 0 0 0.2em gray, 2em 2em 0 0.2em gray, 0 3em 0 0.2em black, -2em 2em 0 0.2em gray, -3em 0 0 0.2em gray, -2em -2em 0 0.2em gray;
+      }
+
+      75% {
+        box-shadow: 0 -3em 0 0.2em gray, 2em -2em 0 0.2em gray, 3em 0 0 0.2em gray, 2em 2em 0 0.2em gray, 0 3em 0 0.2em gray, -2em 2em 0 0.2em black, -3em 0 0 0.2em gray, -2em -2em 0 0.2em gray;
+      }
+
+      87.5% {
+        box-shadow: 0 -3em 0 0.2em gray, 2em -2em 0 0.2em gray, 3em 0 0 0.2em gray, 2em 2em 0 0.2em gray, 0 3em 0 0.2em gray, -2em 2em 0 0.2em gray, -3em 0 0 0.2em black, -2em -2em 0 0.2em gray;
+      }
+    }
+
+    /* Content */
+    #content {
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #go-back {
+      font-size: 20px;
+      padding: 20px 50px;
+      border-radius: 10px;
+      background: #46A4C9;
+      color: white;
+      opacity: 0.8;
+      transition: all 1.5s ease-in-out;
+    }
+
+    #go-back:hover {
+      cursor: pointer;
+      opacity: 1;
+    }
+
+    #result {
+      text-align: center;
+      padding: 10px 0;
+      margin: 20px;
+    }
+
+    #tips {
+      font-size: 15px;
+      margin-top: 20px;
+      color: gray;
+    }
+    /* dialog-tryagain */
+    .text-right {
+      width: 100%;
+      height: 20px;
+      text-align: right;
+    }
+    .text-right img {
+      width: 20px;
+      height: 20px;
+      position: relative;
+      left: 10px;
+      top: 10px;
+    }
+    .text-right img:hover{
+      cursor: pointer;
+    }
+    .pay-method{
+      padding: 10px 0 20px 0;
+      margin: 0;
+      text-align: center;
+      font-size: 20px;
+      font-weight: 700;
+      color: black;
+    }
+    .pay-list {
+      padding: 0;
+    }
+    .pay-card {
+      padding: 10px 0;
+      border-radius: 10px;
+      font-size: 17px;
+      background: rgb(241, 96, 125);
+      justify-content: center;
+      align-items: center;
+      color: white;
+      margin-bottom: 20px;
+      display: flex;
+    }
+    .pay-icon {
+      flex: 3;
+      text-align: right;
+      height: 40px;
+    }
+    .pay-icon img {
+      width: 40px;
+      height: 40px;
+      margin-right: 10px;
+    }
+    .pay-name {
+      flex: 7;
+      padding: 0;
+      margin: 0;
+      text-align: left;
+    }
+  </style>
+
+  <script src="js/jquery-1.7.1.min.js"></script>
+</head>
+
+<body>
+  <div id="content">
+    <h1 id="result">Succeeded</h1>
+    <!--<a id="go-back">Go Back</a> -->
+   
+	<p id="tips">Click the up left icon to go back.</p>
+  </div>
+  <!-- Dialog -->
+  <div id="dialog-modal" style="visibility: visible;">
+    <!-- loading -->
+    <div id="dialog-loading" style="display: none;">
+      <div class='load-container'>
+        <div class='loader'></div>
+      </div>
+      <h1 class="load-tip" id="loaddddd">The payment is processing, please wait.</h1>
+    </div>
+    <!-- try-again -->
+    <div id="dialog-tryagain" style="display: none;">
+      <div class="text-right">
+        <img src="close.png" onclick="hideDialog()"/>
+      </div>
+      <h1 class="pay-method">choose payment method:</h1>
+      <div class="pay-list">
+        <div class="pay-card" onclick="choosePay(0)">
+          <div class="pay-icon"><img src="https://lichat.me/pay_way_paytm826.png"></div>
+          <a class="pay-name">PAYTM</a>
+        </div>
+        <div class="pay-card" onclick="choosePay(1)">
+          <div class="pay-icon"><img src="https://lichat.me/pay_way_gp822.png"></div>
+          <a class="pay-name">Google Pay</a>
+        </div>
+        <div class="pay-card" onclick="choosePay(2)">
+          <div class="pay-icon"><img src="https://lichat.me/pay_way_upi0826.png"></div>
+          <a class="pay-name">UPI</a>
+        </div>
+        <div class="pay-card" onclick="choosePay(3)">
+          <div class="pay-icon"><img src="https://lichat.me/pay_way_ebanking826.png"></div>
+          <a class="pay-name">EBanking</a>
+        </div>
+        <div class="pay-card" onclick="choosePay(4)">
+          <div class="pay-icon"><img src="https://lichat.me/pay_way_cards822.png"></div>
+          <a class="pay-name">Credit Card/Debit Card</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  
+  function getQueryVariable(variable) {
+      var url = window.location.href;
+      url = url.split("?")[1];
+      if (!url) return false;
+      var arr = url.split("&");
+      for (let i=0; i< arr.length; i++){
+        let cur = arr[i].split("=");
+        if(cur[0] === variable) return cur[1];
+      }
+      return false;
+    }
+
+  var myVar = setInterval(function(){ myTimer() }, 1000);
+
+    
+    var dialogModal = document.getElementById("dialog-modal");
+    var dialogLoading = document.getElementById("dialog-loading");
+    var dialogTryAgain = document.getElementById("dialog-tryagain");
+
+
+    // 
+    var result = document.getElementById("result");
+  /*  dialogModal.addEventListener("click", function(){
+      this.style.visibility = "hidden";
+    })*/
+    var tips = document.getElementById("tips");
+    // hide all dialog
+    function hideDialog() {
+      dialogModal.style.visibility = "hidden";
+    }
+  var num = 20 ;
+  var orderId = getQueryVariable('order_id');
+  function myTimer() {
+    if(num<=0){
+      myStopFunction('timeOut');
+    }
+    num -- ;
+    $.ajax({
+      url: 'https://t.livego.live/api/pay/statusN?orderId='+orderId,
+      type: 'post',
+      dataType: 'json',
+      success: function (data) {
+        var data1 = data['data'];
+        var status = data1['status'];
+        if(status == 'success'){
+          onResponse(true, null);
+        }else if(status == 'fail'){
+          onResponse(false, null);
+        }
+      }
+    })
+  }
+
+    /** show dialog
+     * @parma {boolean} showLoading - true loadingDialog，false tryAgainDialog
+    */
+    function showDialog(showLoading){
+      dialogModal.style.visibility = "visible";
+      dialogLoading.style.display = showLoading ? "block" : "none";
+      dialogTryAgain.style.display = showLoading ? "none" : "none";
+    }
+    //var x = confirm("display loadingDialog?");
+    showDialog(true);
+    // close or redirect
+    function closeOrRedirect(url){
+      console.log("In closeOrRedirect : "+url);
+      if (!url) window.close();
+      else window.location.href = url;
+    }
+
+    /**service retrun 
+     * @parma {boolean} success true or false.
+     * @parma {string} url 
+    */
+    function onResponse(success, url) {
+      hideDialog();
+      let that = this;
+      console.log("In OnResponse : "+url);
+      result.innerText = success ? "Success!" : "Failed!";
+      tips.style.display = success ? "block" : "block";
+      clearInterval(myVar);
+    }
+
+
+  function myStopFunction(msg) {
+    if(msg == 'Sucess'){
+      alert('Pay Success,You can leave this page by clicking the return button')
+    }else if(msg == 'Fail'){
+      alert('Pay Fail,You can leave this page by clicking the return button')
+    }else{
+    //  alert('The payment is processing,You can leave this page by clicking the return button and check the balance later')
+      document.getElementById("loaddddd").innerText = "The payment is processing,You can leave this page by clicking the return button and check the balance later.";
+      //tips.style.display = "block";
+    }
+    clearInterval(myVar);
+  }
+
+
+  </script>
+</body>
+
+</html>
