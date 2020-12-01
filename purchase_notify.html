@@ -362,7 +362,7 @@
       hideDialog();
       let that = this;
       console.log("In OnResponse : "+url);
-      result.innerText = success ? "Success!" : "Failed!";
+      result.innerText = success ? "Success!" : "Payment Cancelled or Failed!";
       tips.style.display = success ? "block" : "block";
       clearInterval(myVar);
     }
