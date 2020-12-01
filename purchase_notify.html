@@ -285,9 +285,9 @@
   <script>
   
   function getQueryVariable(variable) {
-      var url = window.location.href;
-      url = url.split("?")[1];
+      let url = location.search;
       if (!url) return false;
+      url = url.substr(1);
       var arr = url.split("&");
       for (let i=0; i< arr.length; i++){
         let cur = arr[i].split("=");
@@ -318,7 +318,7 @@
   var orderId = getQueryVariable('order_id');
   function myTimer() {
     if(num<=0){
-      myStopFunction('timeOut');
+      myStopFunction();
     }
     num -- ;
     $.ajax({
@@ -334,7 +334,7 @@
           onResponse(false, null);
         }
       }
-    })
+    });
   }
 
     /** show dialog
@@ -369,15 +369,15 @@
 
 
   function myStopFunction(msg) {
-    if(msg == 'Sucess'){
-      alert('Pay Success,You can leave this page by clicking the return button')
-    }else if(msg == 'Fail'){
-      alert('Pay Fail,You can leave this page by clicking the return button')
-    }else{
+    // if(msg == 'Sucess'){
+    //   alert('Pay Success,You can leave this page by clicking the return button')
+    // }else if(msg == 'Fail'){
+    //   alert('Pay Fail,You can leave this page by clicking the return button')
+    // }else{
     //  alert('The payment is processing,You can leave this page by clicking the return button and check the balance later')
       document.getElementById("loaddddd").innerText = "The payment is processing,You can leave this page by clicking the return button and check the balance later.";
       //tips.style.display = "block";
-    }
+    // }
     clearInterval(myVar);
   }
 
