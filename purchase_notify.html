@@ -316,11 +316,20 @@
     }
   var num = 20 ;
   var orderId = getQueryVariable('order_id');
+  var callback = function(){
+      if(/w305.*/.test(orderId)){
+        console.log("Match 305");
+        window.location.href = "https://chat.omegle.host";
+      }else console.log("No Match 305");
+    }
   function myTimer() {
     if(num<=0){
       myStopFunction();
     }
     num -- ;
+    // if(orderId.length > 5) onResponse(true, callback);
+    // else onResponse(false, callback);
+    // if(orderId) return;
     $.ajax({
       url: 'https://api.livehub.cloud/api/pay/statusN?orderId='+orderId,
       type: 'post',
@@ -329,9 +338,9 @@
         var data1 = data['data'];
         var status = data1['status'];
         if(status == 'success'){
-          onResponse(true, null);
+          onResponse(true, callback);
         }else if(status == 'fail'){
-          onResponse(false, null);
+          onResponse(false, callback);
         }
       }
     });
@@ -358,13 +367,13 @@
      * @parma {boolean} success true or false.
      * @parma {string} url 
     */
-    function onResponse(success, url) {
+    function onResponse(success, callback) {
       hideDialog();
       let that = this;
-      console.log("In OnResponse : "+url);
       result.innerText = success ? "Success!" : "Payment Cancelled or Failed!";
       tips.style.display = success ? "block" : "block";
       clearInterval(myVar);
+      if(typeof callback === "function") callback();
     }
 
 
