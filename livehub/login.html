@@ -1,0 +1,47 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="user-scalable=no, initial-scale=1.0, width=device-width, maximum-scale=1.0, minimal-ui">
+  <title>Home</title>
+  <link rel="stylesheet" href="./assets_livehub/css/index.css" />
+  <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+</head>
+
+<body>
+  <div class="login-and-signup-container">
+    <div class="login-and-signup">
+      <h1 class="login-and-signup-title">Login / Signup to your <i>LiveHub</i></h1>
+
+      <div class="login-and-signup-lists">
+        <div class="login-and-signup-item" onclick="loginByOther('Google')">
+          <img class="login-and-signup-icon" src="./assets_livehub/img/google-login.png">
+          <span class="login-and-signup-text">Google</span>
+        </div>
+        <div class="login-and-signup-item" onclick="loginByOther('Facebook')">
+          <img class="login-and-signup-icon" src="./assets_livehub/img/facebook-login.png">
+          <span class="login-and-signup-text">Facebook</span>
+        </div>
+      </div>
+
+      <div class="login-and-signup-info">
+        <input type="text" id="email"  class="input-gray" placeholder="email" /> 
+        <input type="password" id="password"  class="input-gray" placeholder="password" />
+        <p class="forget-password">Forget your password?</p>
+      </div>
+
+      <div class="submit-login-info" onclick="signupByEmail()">Login / Signup</div>
+    </div>
+  </div>
+</body>
+<script defer src="https://www.gstatic.com/firebasejs/8.0.2/firebase-app.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/8.0.2/firebase-analytics.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/7.23.0/firebase-auth.js"></script>
+<script defer src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script defer src="./assets_livehub/js/md5.js"></script>
+<script defer src="./assets_livehub/js/index.js"></script>
+</html>

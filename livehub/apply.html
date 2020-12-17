@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport"
+    content="user-scalable=no, initial-scale=1.0, width=device-width, maximum-scale=1.0, minimal-ui">
+  <title>Home</title>
+  <link type="text/css" rel="stylesheet" href="./assets_livehub/layui/css/layui.css" />
+  <link type="text/css" rel="stylesheet" href="./assets_livehub/css/index.css" />
+  <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+</head>
+
+<body class="apply-page">
+  <div class="auto-margin">
+    <h1 class="header-title">Apply to be an </h1>
+    <div class="content-block-1 role-items">
+      <label class="role-label">
+        <input onchange="changeApplyType(this)" disabled class="role apply-host" name="role" value="host" type="radio" /> <span>Host</span>
+      </label>
+      <label class="role-label">
+        <input onchange="changeApplyType(this)" class="role apply-agent" checked name="role" value="agent" type="radio" /> <span>Agent</span>
+      </label>
+    </div>
+  </div>
+
+  <div class="auto-margin">
+    <div class="apply-tips">
+      <p>The agent is an organization that unite many hosts together to work for.</p>
+      <!-- <p>The host is one person who will have 1 to 1 video calls with users.</p> -->
+    </div>
+  </div>
+
+  <div class="auto-margin">
+    <div class="apply-info layui-form">
+      <input class="input-gray contact-info" name="phone" type="text" placeholder="Phone Number" />
+      <input class="input-gray contact-info" name="email" type="text" placeholder="Email Address" />
+      <input class="input-gray contact-info" name="agentGirls" type="text" placeholder="How many girls do you have?" />
+      <input class="input-gray contact-info" name="otherAppWork" type="text" placeholder="What other apps did you work on?" />
+      <textarea class="input-gray contact-info" name="reason" type="text" placeholder="Why to apply……"></textarea>
+      <select name="regionCode" lay-verify="" lay-search>
+
+      </select>
+    </div>
+  </div>
+  <script>
+    let regionCodes = [{"name":"Angola","code":"ao"},{"name":"Afghanistan","code":"af"},{"name":"Albania","code":"al"},{"name":"Algeria","code":"dz"},{"name":"Andorra","code":"ad"},{"name":"Anguilla","code":"ai"},{"name":"Antigua and Barbuda","code":"ag"},{"name":"Argentina","code":"ar"},{"name":"Armenia","code":"am"},{"name":"Australia","code":"au"},{"name":"Austria","code":"at"},{"name":"Azerbaijan","code":"az"},{"name":"Bahamas","code":"bs"},{"name":"Bahrain","code":"bh"},{"name":"Bangladesh","code":"bd"},{"name":"Barbados","code":"bb"},{"name":"Belarus","code":"by"},{"name":"Belgium","code":"be"},{"name":"Belize","code":"bz"},{"name":"Benin","code":"bj"},{"name":"Bermuda Is.","code":"bm"},{"name":"Bolivia","code":"bo"},{"name":"Botswana","code":"bw"},{"name":"Brazil","code":"br"},{"name":"Brunei","code":"bn"},{"name":"Bulgaria","code":"bg"},{"name":"Burkina-faso","code":"bf"},{"name":"Burma","code":"mm"},{"name":"Burundi","code":"bi"},{"name":"Cameroon","code":"cm"},{"name":"Canada","code":"ca"},{"name":"Central African Republic","code":"cf"},{"name":"Chad","code":"td"},{"name":"Chile","code":"cl"},{"name":"China","code":"cn"},{"name":"Colombia","code":"co"},{"name":"Congo","code":"cg"},{"name":"Cook Is.","code":"ck"},{"name":"Costa Rica","code":"cr"},{"name":"Cuba","code":"cu"},{"name":"Cyprus","code":"cy"},{"name":"Czech Republic","code":"cz"},{"name":"Denmark","code":"dk"},{"name":"Djibouti","code":"dj"},{"name":"Dominica Rep.","code":"do"},{"name":"Ecuador","code":"ec"},{"name":"Egypt","code":"eg"},{"name":"EI Salvador","code":"sv"},{"name":"Estonia","code":"ee"},{"name":"Ethiopia","code":"et"},{"name":"Fiji","code":"fj"},{"name":"Finland","code":"fi"},{"name":"France","code":"fr"},{"name":"French Guiana","code":"gf"},{"name":"Gabon","code":"ga"},{"name":"Gambia","code":"gm"},{"name":"Georgia","code":"ge"},{"name":"Germany","code":"de"},{"name":"Ghana","code":"gh"},{"name":"Gibraltar","code":"gi"},{"name":"Greece","code":"gr"},{"name":"Grenada","code":"gd"},{"name":"Guam","code":"gu"},{"name":"Guatemala","code":"gt"},{"name":"Guinea","code":"gn"},{"name":"Guyana","code":"gy"},{"name":"Haiti","code":"ht"},{"name":"Honduras","code":"hn"},{"name":"Hongkong","code":"hk"},{"name":"Hungary","code":"hu"},{"name":"Iceland","code":"is"},{"name":"India","code":"in"},{"name":"Indonesia","code":"id"},{"name":"Iran","code":"ir"},{"name":"Iraq","code":"iq"},{"name":"Ireland","code":"ie"},{"name":"Israel","code":"il"},{"name":"Italy","code":"it"},{"name":"Ivory Coast","code":"civ"},{"name":"Jamaica","code":"jm"},{"name":"Japan","code":"jp"},{"name":"Jordan","code":"jo"},{"name":"Kampuchea (Cambodia )","code":"kh"},{"name":"Kazakstan","code":"kz"},{"name":"Kenya","code":"ke"},{"name":"Korea","code":"kr"},{"name":"Kuwait","code":"kw"},{"name":"Kyrgyzstan","code":"kg"},{"name":"Laos","code":"la"},{"name":"Latvia","code":"lv"},{"name":"Lebanon","code":"lb"},{"name":"Lesotho","code":"ls"},{"name":"Liberia","code":"lr"},{"name":"Libya","code":"ly"},{"name":"Liechtenstein","code":"li"},{"name":"Lithuania","code":"lt"},{"name":"Luxembourg","code":"lu"},{"name":"Macao","code":"mo"},{"name":"Madagascar","code":"mg"},{"name":"Malawi","code":"mw"},{"name":"Malaysia","code":"my"},{"name":"Maldives","code":"mv"},{"name":"Mali","code":"ml"},{"name":"Malta","code":"mt"},{"name":"Mauritius","code":"mu"},{"name":"Mexico","code":"mx"},{"name":"Moldova, Republic of","code":"md"},{"name":"Monaco","code":"mc"},{"name":"Mongolia","code":"mn"},{"name":"Montserrat Is","code":"ms"},{"name":"Morocco","code":"ma"},{"name":"Mozambique","code":"mz"},{"name":"Namibia","code":"na"},{"name":"Nauru","code":"nr"},{"name":"Nepal","code":"np"},{"name":"Netherlands","code":"nl"},{"name":"New Zealand","code":"nz"},{"name":"Nicaragua","code":"ni"},{"name":"Niger","code":"ne"},{"name":"Nigeria","code":"ng"},{"name":"North Korea","code":"kp"},{"name":"Norway","code":"no"},{"name":"Oman","code":"om"},{"name":"Pakistan","code":"pk"},{"name":"Panama","code":"pa"},{"name":"Papua New Cuinea","code":"pg"},{"name":"Paraguay","code":"py"},{"name":"Peru","code":"pe"},{"name":"Philippines","code":"ph"},{"name":"Poland","code":"pl"},{"name":"French Polynesia","code":"pf"},{"name":"Portugal","code":"pt"},{"name":"Puerto Rico","code":"pr"},{"name":"Qatar","code":"qa"},{"name":"Romania","code":"ro"},{"name":"Russia","code":"ru"},{"name":"Saint Lueia","code":"lc"},{"name":"Saint Vincent","code":"vc"},{"name":"San Marino","code":"sm"},{"name":"Sao Tome and Principe","code":"st"},{"name":"Saudi Arabia","code":"sa"},{"name":"Senegal","code":"sn"},{"name":"Seychelles","code":"sc"},{"name":"Sierra Leone","code":"sl"},{"name":"Singapore","code":"sg"},{"name":"Slovakia","code":"sk"},{"name":"Slovenia","code":"si"},{"name":"Solomon Is","code":"sb"},{"name":"Somali","code":"so"},{"name":"South Africa","code":"za"},{"name":"Spain","code":"es"},{"name":"Sri Lanka","code":"lk"},{"name":"St.Lucia","code":"lc"},{"name":"St.Vincent","code":"vc"},{"name":"Sudan","code":"sd"},{"name":"Suriname","code":"sr"},{"name":"Swaziland","code":"sz"},{"name":"Sweden","code":"se"},{"name":"Switzerland","code":"ch"},{"name":"Syria","code":"sy"},{"name":"Taiwan","code":"tw"},{"name":"Tajikstan","code":"tj"},{"name":"Tanzania","code":"tz"},{"name":"Thailand","code":"th"},{"name":"Togo","code":"tg"},{"name":"Tonga","code":"to"},{"name":"Trinidad and Tobago","code":"tt"},{"name":"Tunisia","code":"tn"},{"name":"Turkey","code":"tr"},{"name":"Turkmenistan","code":"tm"},{"name":"Uganda","code":"ug"},{"name":"Ukraine","code":"ua"},{"name":"United Arab Emirates","code":"ae"},{"name":"United Kiongdom","code":"gb"},{"name":"United States of America","code":"us"},{"name":"Uruguay","code":"uy"},{"name":"Uzbekistan","code":"uz"},{"name":"Venezuela","code":"ve"},{"name":"Vietnam","code":"vn"},{"name":"Yemen","code":"ye"},{"name":"Yugoslavia","code":"yu"},{"name":"Zimbabwe","code":"zw"},{"name":"Zaire","code":"zr"},{"name":"Zambia","code":"zm"},{"name":"Netherlands Antilles","code":"an"},{"name":"Russia","code":"rs"},{"name":"North Macedonia","code":"mk"},{"name":"Bosnia and Herzegovina","code":"ba"},{"name":"Kosovo","code":"xk"},{"name":"Croatia","code":"hr"},{"name":"Palestine","code":"ps"}];
+    let regionHTML = new Array();
+    regionHTML.push(`<option>Region</option>`);
+    regionCodes.forEach(val => {
+      regionHTML.push(`
+        <option value="${val.code}">${val.name}</option>
+      `);
+    });
+    document.querySelector("select[name=regionCode]").innerHTML = regionHTML.join("");
+  </script>
+
+  <div class="auto-margin">
+    <h2 class="content-block-title">Upload Your Photo (Optional)</h2>
+    <div class="image-list content-block-1">
+      <img  />
+      <img  />
+      <label class="upload-image">
+        <input id="uploadImage" class="input-file" type="file" onchange="chooseImage(this)" /> <span>+</span>
+      </label>
+    </div>
+  </div>
+
+  <div class="auto-margin only-host-view">
+    <h2 class="content-block-title">Social Media Link</h2>
+    <div class="social-items">
+      <div class="social-icon icon_facebook-icon"></div>
+      <input name="facebookLink" class="input-gray social-link" type="text" />
+      <div class="social-icon icon_instagram-icon"></div>
+      <input name="instagramLink" class="input-gray social-link" type="text" />
+      <div class="social-icon icon_tiktok-cion"></div>
+      <input name="tiktokLink" class="input-gray social-link" type="text" />
+      <div class="social-icon icon_youtube-icon"></div>
+      <input name="youtubeLink" class="input-gray social-link" type="text" />
+    </div>
+  </div>
+
+  <div class="auto-margin">
+    <div class="content-block-1 submit-info" onclick="submitApply()">Submit</div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal" id="dialog-modal">
+    <div id="dialog_1" class="dialog dialog-login" style="z-index: 1;" uncancellable="false">
+        <div class="login-and-signup">
+          <h1 class="login-and-signup-title">Login / Signup to your <i>LiveHub</i></h1>
+    
+          <div class="login-and-signup-lists">
+            <div class="login-and-signup-item" onclick="loginByOther('Google')">
+              <img class="login-and-signup-icon" src="./assets_livehub/img/google-login.png">
+              <span class="login-and-signup-text">Google</span>
+            </div>
+            <div class="login-and-signup-item" onclick="loginByOther('Facebook')">
+              <img class="login-and-signup-icon" src="./assets_livehub/img/facebook-login.png">
+              <span class="login-and-signup-text">Facebook</span>
+            </div>
+          </div>
+    
+          <div class="login-and-signup-info">
+            <input type="text" id="email"  class="input-gray" placeholder="email" /> 
+            <input type="password" id="password"  class="input-gray" placeholder="password" />
+            <p class="forget-password">Forget your password?</p>
+          </div>
+    
+          <div class="submit-login-info" onclick="signupByEmail()">Login / Signup</div>
+      </div>
+    </div>
+  </div>
+</body>
+<script defer src="https://www.gstatic.com/firebasejs/8.0.2/firebase-app.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/8.0.2/firebase-analytics.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/7.23.0/firebase-auth.js"></script>
+<script defer src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script defer src="./assets_livehub/js/md5.js"></script>
+<script defer src="./assets_livehub/js/index.js"></script>
+<script defer src="./assets_livehub/layui/layui.all.js"></script>
+<script defer language="javascript">
+  //一般直接写在一个js文件中
+  setTimeout(function(){
+    layui.use(['layer', 'form'], function(){
+    var layer = layui.layer
+    ,form = layui.form;
+  });
+  }, 500);
+  </script> 
+
+</html>
