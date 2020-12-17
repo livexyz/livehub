@@ -316,6 +316,9 @@
     }
   var num = 20 ;
   var orderId = getQueryVariable('order_id');
+  if(orderId == false){
+	orderId = getQueryVariable('outOrderNo');
+  }
   var callback = function(){
       if(/w305.*/.test(orderId)){
         console.log("Match 305");
