@@ -6,21 +6,25 @@ var config = {
     dialogShowNum: 0,
     dialogs: new Map(),
     isTest: true,
-    baseURL: "https://t.livehub.cloud",
+    // baseURL: "https://t.livehub.cloud",
+    baseURL: "https://vfun.mixit.fun",
     applyRole: "agent",
     user: null,
-    loginData: null
+    loginData: null,
+    showLogin: false
 }
 
 axios.defaults.baseURL = config.baseURL;
-// axios.defaults.baseURL = 'https://vfun.mixit.fun';
 axios.defaults.headers.common['authorization'] = localStorage.getItem("newToken");
 axios.interceptors.response.use(function (response) {
     let res = response.data;
     console.log("AxiosResposne => ", res);
     if(res.status === 413){
-        alert(res.msg);
-        dialog(true, ".dialog-login");
+        // if(config.showLogin) return response;
+        // config.showLogin = true;
+        // alert(res.msg);
+        if(document.querySelector(".dialog-login")) dialog(true, ".dialog-login");
+        else window.location.href = "./login.html";
     }
     return response;
 }, function (error) {
@@ -35,8 +39,11 @@ newAxios.interceptors.response.use(function (response) {
     let res = response.data;
     console.log("AxiosResposne => ", res);
     if(res.status === 413){
-        alert(res.msg);
-        dialog(true, ".dialog-login");
+        // if(config.showLogin) return response;
+        // config.showLogin = true;
+        // alert(res.msg);
+        if(document.querySelector(".dialog-login")) dialog(true, ".dialog-login");
+        else window.location.href = "./login.html";
     }
     return {status: res.status, data: res.data, msg: res.msg};
 }, function (error) {
@@ -457,6 +464,7 @@ async function initAgentApplyInfo() {
     applyViews.phone.value = result.phone || "";
     applyViews.otherAppWork.value = result.otherJobs || "";
     applyViews.reason.value = result.applyInfo || "";
+    applyViews.agentGirls.value = result.ext1 || "";
 }
 function initApplyPage() {
     console.log("Init ApplyPage");
@@ -477,7 +485,7 @@ function chooseImage(ele) {
     if (applyConfig.upImgs.length > 1) applyConfig.upImgs.shift()
     applyConfig.upImgs.push(file);
     applyViews.imageList.firstElementChild.remove();
-    let newImg = document.createElement("img");f
+    let newImg = document.createElement("img");
     newImg.src = URL.createObjectURL(file);
     applyViews.imageList.insertBefore(newImg, ele.parentElement);
 }
