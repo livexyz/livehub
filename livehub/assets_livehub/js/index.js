@@ -6,7 +6,7 @@ var config = {
     dialogShowNum: 0,
     dialogs: new Map(),
     isTest: true,
-    // baseURL: "https://t.livehub.cloud",
+    // baseURL: "https://t.livego.live",
     baseURL: "https://vfun.mixit.fun",
     applyRole: "agent",
     user: null,
@@ -812,6 +812,12 @@ function agentManageHost(ele, type) {
 }
 
 function renderAgentHostList(arr, checkState) {
+    function handleOtherInfo(avaSeconds = 0, onlineTimes = 0){
+        let result = [];
+        result.push(`average time: ${avaSeconds}s<br/>`);
+        result.push(`online time: ${secondsToHMS(onlineTimes)}`);
+        return result.join("");
+    }
     agentConfig.hostList = arr;
     let listNode = document.querySelector(".agent-host-lists > .other-hosts");
     // let header = listNode.firstElementChild;
@@ -836,13 +842,13 @@ function renderAgentHostList(arr, checkState) {
         itemNode.innerHTML = `<div class="uid"><a href="./host.html${value.isSelf ? "" : "?uid=" + value.uid}">${value.uid}</a></div>
         <div class="nickname">${value.nickname}</div>
         <div class="avatar"><img src="${value.avatar}"></div>
-        <div class="other-info">${value.otherInfo || "No Other Info"}</div>
+        <div class="other-info">${handleOtherInfo(value.avaSeconds, value.onlineTimes)}</div>
         <div class="time-of-calls">${value.calls}</div>
-        <div class="work-hours">${(value.minutes / 60).toFixed(2)}</div>
+        <div class="work-hours">${secondsToHMS(value.callSeconds)}</div>
         <div class="status">${value.status > 0 ? "valid" : (sMap.get(value.status) || "Invalid")}</div>
         <div class="manage">
             <span style="${value.isSelf ? "display: none;" : ""}" onclick="agentManageHost(this, 'del')" class="delete manage-option">Delete</span>
-            <label style="${(value.isSelf || -200 === value.status) ? "display: none;" : ""}" class="freeze"> <input ${value.status === -20 ? "checked" : ""} onchange="agentManageHost(this, 'freeze')" type="checkbox" class="agent-freeze-host" /><span class="manage-option">Freeze</span></label>
+            <label style="${(value.isSelf || -200 === value.status) ? "display: none;" : ""}" class="freeze"> <input ${value.status === -33 ? "checked" : ""} onchange="agentManageHost(this, 'freeze')" type="checkbox" class="agent-freeze-host" /><span class="manage-option">Freeze</span></label>
         </div>`;
         listNode.appendChild(itemNode);
     });
@@ -935,13 +941,26 @@ function initHostPageViews() {
     hostViews.hostSelf.remark = hostInfoList.querySelector("input[name=remark]");
 }
 
+function secondsToHMS(seconds){
+    let hours = Math.floor(seconds / 3600);
+    let minutes = Math.floor((seconds % 3600) / 60);
+    let _seconds = seconds % 60;
+    let result = [];
+    if(hours > 0) result.push(`${hours}H`);
+    result.push(`${minutes}M${_seconds}S`);
+    return result.join("");
+}
 
 function renderHostStatisticLogs(obj) {
     console.log("RenderHostStatisticLogs => ", obj);
     let data = obj.data;
     let statistic = document.querySelector(".host-info-statistic-table");
-    statistic.querySelector(".totalDiamond").innerText = data.totalDiamond;
-    statistic.querySelector(".totalDiamond").innerText = data.totalDiamond;
+    statistic.querySelector(".totalCalls").innerText = data.callNums || "0";
+    statistic.querySelector(".callRatio").innerText = data.responseRate || "0%";
+    statistic.querySelector(".workHours").innerText = secondsToHMS(data.callTimes) || "0";
+    statistic.querySelector(".activeTime").innerText = data.onlineTime || "0";
+
+    statistic.querySelector(".totalDiamond").innerText = data.totalDiamond || "0";
 }
 function renderHostGiftLogs(obj) {
     console.log("renderHostGiftLogs => ", obj);
@@ -1000,7 +1019,8 @@ function renderHostCallLogs(obj) {
 }
 
 async function initHostLogs() {
-    let url1 = getUrl("/api/call/weekly/total");
+    // let url1 = getUrl("/api/call/weekly/total");
+    let url1 = getUrl("/api/weekly/callinfo");
     let url2 = getUrl("/api/reward/weekly/list");
     let url3 = getUrl("/api/call/weekly/list");
     let VideoCallToal = axios.post(url1, {}, { headers: getHeaders() });
