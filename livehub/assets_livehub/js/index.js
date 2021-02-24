@@ -845,11 +845,11 @@ function renderAgentHostList(arr, checkState) {
         <div class="other-info">${handleOtherInfo(value.avaSeconds, value.onlineTimes)}</div>
         <div class="time-of-calls">${value.calls}</div>
         <div class="work-hours">${secondsToHMS(value.callSeconds)}</div>
-        <div class="status">${value.status > 0 ? "valid" : (sMap.get(value.status) || "Invalid")}</div>
+        <div class="status">${value.status}</div>
         <div class="manage">
             <span style="${value.isSelf ? "display: none;" : ""}" onclick="agentManageHost(this, 'del')" class="delete manage-option">Delete</span>
-            <label style="${(value.isSelf || -200 === value.status) ? "display: none;" : ""}" class="freeze"> <input ${value.status === -33 ? "checked" : ""} onchange="agentManageHost(this, 'freeze')" type="checkbox" class="agent-freeze-host" /><span class="manage-option">Freeze</span></label>
         </div>`;
+        // <label style="${(value.isSelf || -200 === value.status) ? "display: none;" : ""}" class="freeze"> <input ${value.status === -33 ? "checked" : ""} onchange="agentManageHost(this, 'freeze')" type="checkbox" class="agent-freeze-host" /><span class="manage-option">Freeze</span></label>
         listNode.appendChild(itemNode);
     });
 }
