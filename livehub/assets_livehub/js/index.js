@@ -290,7 +290,7 @@ firebase.auth().onAuthStateChanged(function (user) {
  */
 async function getHostInfo(relateUid, call) {
     let url = getUrl("/api/user/info");
-    let dataObj = relateUid ? { relateUid: relateUid } : {};
+    let dataObj = relateUid ? { relateUid } : {};
     let resultObj = { success: false };
     await axios.post(url, dataObj, { headers: getHeaders() }).then(res => {
         if (res.data.status === 0) {
