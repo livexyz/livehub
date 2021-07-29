@@ -7,7 +7,7 @@ var config = {
     dialogs: new Map(),
     isTest: true,
     // baseURL: "https://t.livego.live",
-    baseURL: "https://vfun.mixit.fun",
+    baseURL: "https://api.livehub.cloud",
     applyRole: "agent",
     user: null,
     loginData: null,
